@@ -5,6 +5,7 @@
  * 1.请求表单
  * 2.盾构线路
  * 3.盾构线路动画
+ * 4.圆环扩散效果
  * 
  */
 
@@ -171,4 +172,70 @@ function simAnimation(n, t) {
     for (let j = 1; j < tweenArray.length; j++) {
         tweenArray[j - 1].chain(tweenArray[j]);
     }
+}
+
+/************************************************************************圆环扩散效果************************************************************************************************************** */
+// let circle = scatterCircle(1, 0.1, 0.3, new THREE.Vector3(0, 1, 1), 0.02);
+// circle.position.set(0, 0, 0);
+// circle.name = "circle";
+// circle.rotation.x = Math.PI / 2
+
+//r 圆半径
+//init 初始圆半径
+//ring 圆环大小
+//color 颜色 THREE.Vector3
+//speed 速度
+function scatterCircle(r, init, ring, color, speed) {
+    var uniform = {
+        u_color: { value: color },
+        u_r: { value: init },
+        u_ring: {
+            value: ring,
+        },
+    };
+
+    var vs = `
+		varying vec3 vPosition;
+		void main(){
+			vPosition=position;
+			gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		}
+	`;
+    var fs = `
+		varying vec3 vPosition;
+		uniform vec3 u_color;
+		uniform float u_r;
+		uniform float u_ring;
+
+		void main(){
+			float pct=distance(vec2(vPosition.x,vPosition.y),vec2(0.0));
+			if(pct>u_r || pct<(u_r-u_ring)){
+				gl_FragColor = vec4(1.0,0.0,0.0,0);
+			}else{
+				float dis=(pct-(u_r-u_ring))/(u_r-u_ring);
+				gl_FragColor = vec4(u_color,dis);
+			}
+		}
+	`;
+    const geometry = new THREE.CircleGeometry(r, 120);
+    var material = new THREE.ShaderMaterial({
+        vertexShader: vs,
+        fragmentShader: fs,
+        side: THREE.DoubleSide,
+        uniforms: uniform,
+        transparent: true,
+        depthWrite: false,
+    });
+    const circle = new THREE.Mesh(geometry, material);
+
+    function render() {
+        uniform.u_r.value += speed || 0.1;
+        if (uniform.u_r.value >= r) {
+            uniform.u_r.value = init;
+        }
+        requestAnimationFrame(render);
+    }
+    render();
+
+    return circle;
 }
