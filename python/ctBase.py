@@ -1,7 +1,14 @@
+import requests
+import json
+
 getUrl = r"http://39.98.252.137:4600/api/v1/worksheet/getFilterRows"
 addUrl = r"http://39.98.252.137:4600/api/v1/worksheet/addRow"
 addsUrl = r"http://39.98.252.137:4600/api/v1/worksheet/addRows"
+formDesignStructureUrl = r"http://39.98.252.137:4600/api/v1/worksheet/getWorksheetInfo"
+# app
+appStructureUrl = r"http://39.98.252.137:4600/api/v2/worksheet/getWorksheetInfo"
 appAddsUrl = r"http://39.98.252.137/api/v2/worksheet/addRows"
+structureUrl = r""
 
 
 def getBaseConf(wsId):
@@ -40,3 +47,25 @@ def initFormDesignConf(wsId, type):
     elif type == "del":
         baseConf.update(delConf)
     return baseConf
+
+
+def getStructure(wsId, type):
+    global structureUrl
+    if type == "app":
+        structureUrl = appStructureUrl
+    elif type == "fd":
+        structureUrl = formDesignStructureUrl
+    """
+        表结构
+    """
+    baseConf = getBaseConf(wsId=wsId)
+    transferResult = requests.post(url=structureUrl, data=json.dumps(baseConf), headers={
+        'Content-Type': 'application/json;charset=UTF-8'})
+    if transferResult.json()["code"] == 200:
+        return transferResult.json()["data"]["fields"]
+    else:
+        return None
+
+
+if __name__ == '__main__':
+    getStructure("6211f3cbf3faa72fd58d552e", "fd")

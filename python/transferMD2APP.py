@@ -1,4 +1,5 @@
 import ctBase as base
+import mdBase as md
 import requests
 import simplejson
 import re
@@ -7,8 +8,7 @@ import re
 """
     ---------------------------------GLOBAL---------------------------------
 """
-getUrl = base.getUrl
-addsUrl = base.appAddsUrl
+appAddsUrl = base.appAddsUrl
 fdStructureUrl = base.structureUrl
 fieldContrastByCode = {}
 """
@@ -17,18 +17,10 @@ fieldContrastByCode = {}
 transferWSId = {
     # APPID
     "transferWSId": "62120913f3faa72fd5906cc2",
-    # formDesignID
-    "baseWSId": "61ed28670fb63674a6b7ca6b",
     # mdID
-    "mdWSId": "5fbb0df61609f80bf8e811fe"
+    "mdWSId": "62120ae43a00e213d0e89136"
 }
-# 左边是APP的字段，右边是formDesign的字段
-fieldContrast = {
-    "number19842": "number_1642990590289",
-    "number89071": "number_1642990581415",
-    "number23683": "number_1642990581803",
-    "number107254": "number_1642990582335"
-}
+
 """
     -----------------------------------------------------FUNCTION-----------------------------------------------------------------------------
 """
@@ -42,13 +34,14 @@ def formDesign2APP():
     global fieldContrastByCode
     global formDesignData
     global addRows
-    # 获取formDesign的数据
-    baseFormDesignConf = base.initFormDesignConf(
-        transferWSId["baseWSId"], "list")
+    # 获取md的数据
+    baseFormDesignConf = md.initConf(transferWSId["mdWSId"], "list")
     baseFormDesignConf2 = simplejson.dumps(baseFormDesignConf)
-    baseResult = requests.post(url=getUrl, data=baseFormDesignConf2)
-    if(baseResult.json()["code"]) == 200:
-        formDesignData = baseResult.json()["data"]
+    baseResult = requests.post(url=md.getUrl, data=baseFormDesignConf2,headers={
+            'Content-Type': 'application/json;charset=UTF-8'})
+
+    if(baseResult.json()["success"]) == True:
+        formDesignData = baseResult.json()["data"]["rows"]
 
     # 处理要添加的数据
     for row in formDesignData:
@@ -72,7 +65,7 @@ def formDesign2APP():
     for addrow in addRows:
         transferConf["rows"] = addrow
         transferConf3 = simplejson.dumps(transferConf)
-        transferResult = requests.post(url=addsUrl, data=transferConf3, headers={
+        transferResult = requests.post(url=appAddsUrl, data=transferConf3, headers={
             'Content-Type': 'application/json;charset=UTF-8'})
         print(transferResult.json())
 
@@ -87,19 +80,20 @@ def contrastField():
     for i in appStructure:
         appColumns.append(i["name"])
 
-    # formDesign结构
-    fdStructure = base.getStructure(transferWSId["baseWSId"], "fd")
+    # md结构
+    fdStructure = md.getStructure(transferWSId["mdWSId"])
     for i in fdStructure:
-        fdColumns.append(i["name"])
+        fdColumns.append(i["controlId"])
     
     for index,item in enumerate(appColumns):
         fieldContrastByCode[item] = fdColumns[index]
 
 
 """
-    将formDesign表单数据转移到APP表单
+    将MD表单数据转移到APP表单
     使用配置：
         1.transferWSId
+        2.配置明道的appKey和Sign
 
 """
 if __name__ == '__main__':
