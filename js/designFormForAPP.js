@@ -37,7 +37,7 @@ class generateStructure {
             "icon": "number-field",
             "formItemFlag": true,
             "options": {
-                "name": id,
+                "name": option["name"],
                 "label": option["name"],
                 "labelAlign": "",
                 "defaultValue": 0,
@@ -57,7 +57,7 @@ class generateStructure {
                 "labelTooltip": null,
                 "min": -100000000000,
                 "max": 100000000000,
-                "precision": 1,
+                "precision": option["len"],
                 "step": 1,
                 "controlsPosition": "right",
                 "onCreated": "",
@@ -67,7 +67,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": id
+            "id": option["name"]
         }
     }
     getInput(option) {
@@ -77,7 +77,7 @@ class generateStructure {
             "icon": "text-field",
             "formItemFlag": true,
             "options": {
-                "name": id,
+                "name": option["name"],
                 "label": option["name"],
                 "labelAlign": "",
                 "type": "text",
@@ -115,7 +115,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": id
+            "id": option["name"]
         }
     }
     getDate(option) {
@@ -125,7 +125,7 @@ class generateStructure {
             "icon": "date-field",
             "formItemFlag": true,
             "options": {
-                "name": id,
+                "name": option["name"],
                 "label": option["name"],
                 "labelAlign": "",
                 "type": "date",
@@ -156,7 +156,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": id
+            "id": option["name"]
         }
     }
     getFormConfig() {
@@ -198,8 +198,16 @@ class generateStructure {
         return type + uuid.join('');
     }
 }
+
 new generateStructure([
-    { name: "asdf", type: "number" },
-    { name: "df", type: "date" },
-    { name: "eew", type: "input" },
+    { name: "project_code", type: "input" },
+    { name: "crane_id", type: "input" },
+    { name: "date", type: "date" },
+    { name: "work_hour", type: "number", len: 1 },
+    { name: "safety_level", type: "number", len: 1 },
+    { name: "tower_safety_level", type: "number", len: 1 },
+    { name: "operate_safety_level", type: "number", len: 1 },
+    { name: "staff_level", type: "number", len: 1 },
+    { name: "unauthorized_level", type: "number", len: 1 },
+    { name: "violation_level", type: "number", len: 0 }
 ])

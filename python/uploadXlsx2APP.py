@@ -1,10 +1,9 @@
-import io
 import os
 import pandas as pd
 import requests
 import simplejson
 import ctBase as ct
-import re
+import  re
 from datetime import datetime
 
 df = ''
@@ -37,9 +36,9 @@ def resolveXlsx(baseDir, column):
                     # 第i行第j列
                     v = newDF.iloc[i, j]
                     if "date" in dictKey:
-                        # singleRowColumn[dictKey] = re.sub("/", "-", v)
-                        singleRowColumn[dictKey] = str(
-                            datetime.strptime(v, '%Y/%m/%d'))
+                        singleRowColumn[dictKey] = re.sub("/", "-", v)
+                        # singleRowColumn[dictKey] = str(
+                        #     datetime.strptime(v, '%Y/%m/%d'))
                     else:
                         singleRowColumn[dictKey] = v
                 contact[len(contact) - 1].append(singleRowColumn)
@@ -54,13 +53,17 @@ def resolveXlsx(baseDir, column):
 baseConfig = {
     "type": "app",
     "method": "adds",
-    "wsId": "61f09c47a59b6ee631473a0f",
+    "wsId": "6209ca581712907f63e45f84",
     "row": {
-        "input17137": "文本",
-        "date56900": "2006-01-02 15:04:05"
+        "input51325": "文本",
+        # "select27427": "文本",
+        "number30644": 123.45,
+        "date62362": "2006-01-02 15:04:05",
+        "select76129": "文本"
     },
-    "baseDir": "D:\\tmp\新建文件夹",
-    "column": ["点号", "监测日期"]
+    "baseDir": "D:\project\北京市政\星火站\历史监测数据\周上传数据\\20220228\第三方\石星\手动上传\merge",
+    # "column": ["监测点号", "测点类型","累计沉降（mm）","监测时间2","区间"]
+    "column": ["监测点号","本次累计变化量(mm)","监测日期","区间"]
 }
 addsFormConfig = ct.initFormDesignConf(
     baseConfig["wsId"], baseConfig["method"]
