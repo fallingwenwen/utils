@@ -56,14 +56,14 @@ baseConfig = {
     "wsId": "6209ca581712907f63e45f84",
     "row": {
         "input51325": "文本",
-        # "select27427": "文本",
+        "select27427": "文本",
         "number30644": 123.45,
         "date62362": "2006-01-02 15:04:05",
         "select76129": "文本"
     },
-    "baseDir": "D:\project\北京市政\星火站\历史监测数据\周上传数据\\20220228\第三方\石星\手动上传\merge",
-    # "column": ["监测点号", "测点类型","累计沉降（mm）","监测时间2","区间"]
-    "column": ["监测点号","本次累计变化量(mm)","监测日期","区间"]
+    "baseDir": r"D:\project\北京市政\星火站\历史监测数据\周上传数据\20220328\施工方\星火站\网页数据",
+    "column": ["测点名称", "测点类型","累计沉降（mm）","监测时间","区间"]
+    # "column": ["测点名称","测点类型","监测时间","区间"]
 }
 addsFormConfig = ct.initFormDesignConf(
     baseConfig["wsId"], baseConfig["method"]

@@ -3,7 +3,8 @@ import json
 
 getUrl = r"http://39.98.252.137:4600/api/v1/worksheet/getFilterRows"
 addUrl = r"http://39.98.252.137:4600/api/v1/worksheet/addRow"
-addsUrl = r"http://39.98.252.137:4600/api/v1/worksheet/addRows"
+addsUrl = r"http://71.132.17.215:4600/api/v1/worksheet/addRows"
+# addsUrl = r"http://39.98.252.137:4600/api/v1/worksheet/addRows"
 formDesignStructureUrl = r"http://39.98.252.137:4600/api/v1/worksheet/getWorksheetInfo"
 # app
 appStructureUrl = r"http://39.98.252.137:4600/api/v2/worksheet/getWorksheetInfo"

@@ -37,7 +37,7 @@ class generateStructure {
             "icon": "number-field",
             "formItemFlag": true,
             "options": {
-                "name": option["name"],
+                "name": id,
                 "label": option["name"],
                 "labelAlign": "",
                 "defaultValue": 0,
@@ -67,7 +67,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": option["name"]
+            "id": id
         }
     }
     getInput(option) {
@@ -77,7 +77,7 @@ class generateStructure {
             "icon": "text-field",
             "formItemFlag": true,
             "options": {
-                "name": option["name"],
+                "name": id,
                 "label": option["name"],
                 "labelAlign": "",
                 "type": "text",
@@ -115,7 +115,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": option["name"]
+            "id": id
         }
     }
     getDate(option) {
@@ -125,7 +125,7 @@ class generateStructure {
             "icon": "date-field",
             "formItemFlag": true,
             "options": {
-                "name": option["name"],
+                "name": id,
                 "label": option["name"],
                 "labelAlign": "",
                 "type": "date",
@@ -156,7 +156,7 @@ class generateStructure {
                 "onBlur": "",
                 "onValidate": ""
             },
-            "id": option["name"]
+            "id": id
         }
     }
     getFormConfig() {
@@ -200,14 +200,16 @@ class generateStructure {
 }
 
 new generateStructure([
-    { name: "project_code", type: "input" },
-    { name: "crane_id", type: "input" },
-    { name: "date", type: "date" },
-    { name: "work_hour", type: "number", len: 1 },
-    { name: "safety_level", type: "number", len: 1 },
-    { name: "tower_safety_level", type: "number", len: 1 },
-    { name: "operate_safety_level", type: "number", len: 1 },
-    { name: "staff_level", type: "number", len: 1 },
-    { name: "unauthorized_level", type: "number", len: 1 },
-    { name: "violation_level", type: "number", len: 0 }
+
+    { name: "承包商名称", type: "input" },
+    { name: "项目名称", type: "input" },
+    { name: "承包商法人代表", type: "input" },
+    { name: "注册资金", type: "number" },
+    { name: "地址及联系电话", type: "input" },
+    { name: "经营范围、类别", type: "input" },
+    { name: "分包形式", type: "input" },
+    { name: "入场天数", type: "input" },
+    { name: "安全等级", type: "number" },
+
+
 ])
